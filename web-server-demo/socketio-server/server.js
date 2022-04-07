@@ -51,7 +51,7 @@ var options = {
 var https_server = https.createServer(options, app);
 
 //bind socket.io with https_server
-var io = socketIo.listen(https_server); //TypeError: socketIo.listen is not a function 降级 npm install -s socket.io@2.0.4
+var io = socketIo.listen(https_server); //TypeError: socketIo.listen is not a function 降级 npm install -s socket.io@2.0.3
 var sockio = socketIo.listen(http_server);
 
 //connection
