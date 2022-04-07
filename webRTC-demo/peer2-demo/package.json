@@ -1,5 +1,5 @@
 {
-  "name": "peer-demo",
+  "name": "peer2-demo",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -9,11 +9,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.3",
-    "log4js": "^6.4.4",
-    "serve-index": "^1.9.1",
-    "socket.io": "^2.0.3"
-  }
+  "license": "ISC"
 }

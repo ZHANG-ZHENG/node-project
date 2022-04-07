@@ -29,19 +29,18 @@ function start(){
 		!navigator.mediaDevices.getUserMedia){
 		console.error('the getUserMedia is not supported!');
 		return;
-	}else {
-		var constraints = {
-			video: true,
-			audio: false
-		}
-		navigator.mediaDevices.getUserMedia(constraints)
-					.then(getMediaStream)
-					.catch(handleError);
-
-		btnStart.disabled = true;
-		btnCall.disabled = false;
-		btnHangup.disabled = true;
 	}
+	var constraints = {
+		video: true,
+		audio: false
+	}
+	navigator.mediaDevices.getUserMedia(constraints)
+				.then(getMediaStream)
+				.catch(handleError);
+
+	btnStart.disabled = true;
+	btnCall.disabled = false;
+	btnHangup.disabled = true;
 }
 
 function getRemoteStream(e){
@@ -88,10 +87,12 @@ function call(){
 
 	pc1.onicecandidate = (e)=>{
 		pc2.addIceCandidate(e.candidate);	
+		console.log('pc1 ICE candidate:', e.candidate);
 	}
 
 	pc2.onicecandidate = (e)=>{
 		pc1.addIceCandidate(e.candidate);	
+		console.log('pc2 ICE candidate:', e.candidate);
 	}
 
 	pc2.ontrack = getRemoteStream;

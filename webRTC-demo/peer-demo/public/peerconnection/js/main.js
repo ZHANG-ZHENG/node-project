@@ -25,41 +25,33 @@ function start(){
 		video: true,
 		audio: false 
 	}
-
-	if(!navigator.mediaDevices ||
-		!navigator.mediaDevices.getUserMedia){
+	if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
 		return;
-	}else {
-		navigator.mediaDevices.getUserMedia(constraints)
-					.then(gotMediaStream)
-					.catch(handleError);
 	}
-
+	navigator.mediaDevices.getUserMedia(constraints)
+		.then(gotMediaStream)
+		.catch(handleError);
 }
 
 function gotAnswerDescription(desc){
 	pc2.setLocalDescription(desc);
-
 	//send sdp to caller
-	//recieve sdp from callee
-	
-	pc1.setRemoteDescription(desc);
 
+	//recieve sdp from callee
+	pc1.setRemoteDescription(desc);
 }
 
 function gotLocalDescription(desc){
 	pc1.setLocalDescription(desc);
-
 	//send sdp to callee
-	
+
 	//receive sdp from caller 
  	pc2.setRemoteDescription(desc);	
 	pc2.createAnswer().then(gotAnswerDescription)
-			 .catch(handleError);
+		.catch(handleError);
 }
 
 function gotRemoteStream(e){
-
 	if(remoteVideo.srcObject !== e.streams[0]){
 		remoteVideo.srcObject = e.streams[0];
 	}
@@ -73,7 +65,7 @@ function call(){
 
 	pc1 = new RTCPeerConnection();
 	pc1.onicecandidate = (e) => {
-	
+
 		// send candidate to peer
 		// receive candidate from peer
 
@@ -117,13 +109,11 @@ function call(){
 
 }
 
-
 function hangup(){
 	pc1.close();
 	pc2.close();
 	pc1 = null;
 	pc2 = null;
-
 }
 
 btnStart.onclick = start;
