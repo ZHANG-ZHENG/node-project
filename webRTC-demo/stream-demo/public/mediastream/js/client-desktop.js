@@ -75,31 +75,27 @@ function handleError(err){
 
 function start() {
 
-	if(!navigator.mediaDevices ||
-		!navigator.mediaDevices.getUserMedia){
+	if(!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia){
 
 		console.log('getUserMedia is not supported!');
 		return;
 
-	}else{
-
-		var deviceId = videoSource.value; 
-		var constraints = {
-			video : {
-				width: 640,	
-				height: 480,
-				frameRate:15,
-				facingMode: 'enviroment',
-				deviceId : deviceId ? {exact:deviceId} : undefined 
-			}, 
-			audio : false 
-		}
-
-		navigator.mediaDevices.getUserMedia(constraints)
-			.then(gotMediaStream)
-			.then(gotDevices)
-			.catch(handleError);
 	}
+	var deviceId = videoSource.value; 
+	var constraints = {
+		video : {
+			width: 640,	
+			height: 480,
+			frameRate:15,
+			facingMode: 'enviroment',
+			deviceId : deviceId ? {exact:deviceId} : undefined 
+		}, 
+		audio : false 
+	}
+	navigator.mediaDevices.getDisplayMedia(constraints)
+		.then(gotMediaStream)
+		.then(gotDevices)
+		.catch(handleError);
 }
 
 start();
