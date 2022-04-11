@@ -51,11 +51,14 @@ function gotDevices(deviceInfos){
 			audioOutput.appendChild(option);
 		}else if(deviceinfo.kind === 'videoinput'){
 			videoSource.appendChild(option);
+		}else{
+			console.log("deviceinfo.kind",deviceinfo.kind);
 		}
 	})
 }
 
 function gotMediaStream(stream){
+	console.log("stream",stream);
 
 	var videoTrack = stream.getVideoTracks()[0];
 	var videoConstraints = videoTrack.getSettings();
@@ -66,21 +69,23 @@ function gotMediaStream(stream){
 	videoplay.srcObject = stream;
 
 	//audioplay.srcObject = stream;
+	
 	return navigator.mediaDevices.enumerateDevices();
 }
 
 function handleError(err){
-	console.log('getUserMedia error:', err);
+	console.log('getMedia error:', err);
 }
 
 function start() {
 
 	if(!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia){
 
-		console.log('getUserMedia is not supported!');
+		console.log('getMedia is not supported!');
 		return;
 
 	}
+	console.log("navigator",navigator);
 	var deviceId = videoSource.value; 
 	var constraints = {
 		video : {

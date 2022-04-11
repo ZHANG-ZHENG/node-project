@@ -49,22 +49,6 @@ function IsPC() {
 	return flag;
 }
 
-//如果返回true 则说明是Android  false是ios
-function is_android() {
-	var u = navigator.userAgent, app = navigator.appVersion;
-	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
-	var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-	if (isAndroid) {
-		//这个是安卓操作系统
-		return true;
-	}
-
-	if (isIOS) {
-      　　//这个是ios操作系统
-     　　 return false;
-	}
-}
-
 //获取url参数
 function getQueryVariable(variable)
 {
@@ -110,7 +94,7 @@ function conn(){
 	});
 
 	socket.on('otherjoin', (roomid) => {
-		console.log('receive joined message:', roomid, state);
+		console.log('receive otherjoin message:', roomid, state);
 
 		//如果是多人的话，每上来一个人都要创建一个新的 peerConnection
 		//
@@ -347,15 +331,14 @@ function createPeerConnection(){
 	console.log('create RTCPeerConnection!');
 	if(!pc){
 		pc = new RTCPeerConnection(pcConfig);
-
 		pc.onicecandidate = (e)=>{
 
 			if(e.candidate) {
 				sendMessage(roomid, {
 					type: 'candidate',
-					label:event.candidate.sdpMLineIndex, 
-					id:event.candidate.sdpMid, 
-					candidate: event.candidate.candidate
+					label:e.candidate.sdpMLineIndex, 
+					id:e.candidate.sdpMid, 
+					candidate: e.candidate.candidate
 				});
 			}else{
 				console.log('this is the end candidate');
