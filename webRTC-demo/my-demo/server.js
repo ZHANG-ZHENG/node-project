@@ -93,9 +93,9 @@ io.sockets.on('connection', (socket)=> {
 
 https_server.listen(443, '0.0.0.0');
 
-//https://zztest.com/testCreateOffer/index.html
-//https://zztest.com/peerconnection_onebyone/room.html https://172.20.124.233/peerconnection_onebyone/room.html
-//https://172.20.124.233/peer/src.html https://172.20.124.233/peer/des.html
+// https://127.0.0.1/stream/media.html
+// https://172.20.124.233/peer/src.html
+// https://172.20.124.233/peer/src.html https://172.20.124.233/peer/des.html
 
 
 
