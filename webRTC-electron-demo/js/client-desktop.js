@@ -1,26 +1,5 @@
 'use strict'
-
-
-window.navigator.mediaDevices.getDisplayMedia = () => {  
-    return new Promise(async (resolve, reject) => {
-      try {
-        const sources = await desktopCapturer.getSources({ types: ['screen'] })
-        const stream = await window.navigator.mediaDevices.getUserMedia({
-            audio: false,
-            video: {
-              mandatory: {
-                chromeMediaSource: 'desktop',
-                chromeMediaSourceId: sources[0].id
-              }
-            }
-          })
-          resolve(stream)
-        }catch(err){
-            reject(err)
-        }       
-    })
-  }
-
+const { desktopCapturer } = require('electron')
 //devices
 var audioSource = document.querySelector('select#audioSource');
 var audioOutput = document.querySelector('select#audioOutput');
@@ -91,39 +70,85 @@ function gotMediaStream(stream){
 
 	//audioplay.srcObject = stream;
 	
-	return navigator.mediaDevices.enumerateDevices();
+	//return navigator.mediaDevices.enumerateDevices();
 }
 
 function handleError(err){
 	console.log('getMedia error:', err);
 }
 
+// function start() {
+
+// 	if(!window.navigator.mediaDevices || !window.navigator.mediaDevices.getDisplayMedia){
+
+// 		console.log('getMedia is not supported!');
+// 		return;
+
+// 	}
+// 	console.log("navigator",navigator);
+// 	var deviceId = videoSource.value; 
+// 	var constraints = {
+// 		video : {
+// 			width: 640,	
+// 			height: 480,
+// 			frameRate:15,
+// 			facingMode: 'enviroment',
+// 			deviceId : deviceId ? {exact:deviceId} : undefined 
+// 		}, 
+// 		audio : false 
+// 	}
+// 	window.navigator.mediaDevices.getDisplayMedia(constraints)
+// 		.then(gotMediaStream)
+// 		.then(gotDevices)
+// 		.catch(handleError);
+// }
 function start() {
-
-	if(!window.navigator.mediaDevices || !window.navigator.mediaDevices.getDisplayMedia){
-
-		console.log('getMedia is not supported!');
-		return;
-
-	}
-	console.log("navigator",navigator);
-	var deviceId = videoSource.value; 
-	var constraints = {
-		video : {
-			width: 640,	
-			height: 480,
-			frameRate:15,
-			facingMode: 'enviroment',
-			deviceId : deviceId ? {exact:deviceId} : undefined 
-		}, 
-		audio : false 
-	}
-	window.navigator.mediaDevices.getDisplayMedia(constraints)
+	desktopCapturer.getSources({
+			types: ['screen'],
+			thumbnailSize: {
+				width: 320,
+				height: 240
+			}
+		}, (error, sources) => {
+		if (error){
+			console.error(error)
+		}
+		var source = sources[0];
+		var constraints = {
+			video : {
+				width: 640,	
+				height: 480,
+				frameRate:15,
+				facingMode: 'enviroment',
+				deviceId : source.id 
+			}, 
+			audio : false 
+		}	
+		constraints = {
+			audio: false,
+			video: {
+				mandatory: {
+					chromeMediaSource: 'desktop',
+					chromeMediaSourceId: source.id,
+					minWidth: 640,
+					maxWidth: 640,
+					minHeight: 320,
+					maxHeight: 320
+				}
+			}
+		}
+		navigator.mediaDevices.getUserMedia(constraints)
 		.then(gotMediaStream)
-		.then(gotDevices)
 		.catch(handleError);
+		sources.forEach((source) => {
+			console.log("source=",source);
+			var option = document.createElement('option');
+			option.text = source.name;
+			option.value = source.id;
+			videoSource.appendChild(option);		
+		})
+	})	
 }
-
 start();
 
 videoSource.onchange = start;
