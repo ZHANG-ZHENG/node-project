@@ -8,6 +8,12 @@
   },
   "author": "zz",
   "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "log4js": "^6.4.4",
+    "serve-index": "^1.9.1",
+    "socket.io": "^2.0.3"
+  },
   "devDependencies": {
     "electron": "^3.0.0-beta.3"
   }

@@ -16,6 +16,7 @@ btnConnect.onclick = ()=>{
 
 	//connect
 	socket = io.connect(); 
+	//socket = io("wss://127.0.0.1"); 
 	
 	//recieve message
 	socket.on('joined', (room, id) => {

@@ -1,5 +1,5 @@
 'use strict'
-const { desktopCapturer } = require('electron')
+
 //devices
 var audioSource = document.querySelector('select#audioSource');
 var audioOutput = document.querySelector('select#audioOutput');
@@ -51,14 +51,11 @@ function gotDevices(deviceInfos){
 			audioOutput.appendChild(option);
 		}else if(deviceinfo.kind === 'videoinput'){
 			videoSource.appendChild(option);
-		}else{
-			console.log("deviceinfo.kind",deviceinfo.kind);
 		}
 	})
 }
 
 function gotMediaStream(stream){
-	console.log("stream",stream);
 
 	var videoTrack = stream.getVideoTracks()[0];
 	var videoConstraints = videoTrack.getSettings();
@@ -69,86 +66,40 @@ function gotMediaStream(stream){
 	videoplay.srcObject = stream;
 
 	//audioplay.srcObject = stream;
-	
-	//return navigator.mediaDevices.enumerateDevices();
+	return navigator.mediaDevices.enumerateDevices();
 }
 
 function handleError(err){
-	console.log('getMedia error:', err);
+	console.log('getUserMedia error:', err);
 }
 
-// function start() {
-
-// 	if(!window.navigator.mediaDevices || !window.navigator.mediaDevices.getDisplayMedia){
-
-// 		console.log('getMedia is not supported!');
-// 		return;
-
-// 	}
-// 	console.log("navigator",navigator);
-// 	var deviceId = videoSource.value; 
-// 	var constraints = {
-// 		video : {
-// 			width: 640,	
-// 			height: 480,
-// 			frameRate:15,
-// 			facingMode: 'enviroment',
-// 			deviceId : deviceId ? {exact:deviceId} : undefined 
-// 		}, 
-// 		audio : false 
-// 	}
-// 	window.navigator.mediaDevices.getDisplayMedia(constraints)
-// 		.then(gotMediaStream)
-// 		.then(gotDevices)
-// 		.catch(handleError);
-// }
 function start() {
-	desktopCapturer.getSources({
-			types: ['screen'],
-			thumbnailSize: {
-				width: 320,
-				height: 240
-			}
-		}, (error, sources) => {
-		if (error){
-			console.error(error)
-		}
-		var source = sources[0];
-		var constraints = {
-			video : {
-				width: 640,	
-				height: 480,
-				frameRate:15,
-				facingMode: 'enviroment',
-				deviceId : source.id 
-			}, 
-			audio : false 
-		}	
-		constraints = {
-			audio: false,
-			video: {
-				mandatory: {
-					chromeMediaSource: 'desktop',
-					chromeMediaSourceId: source.id,
-					minWidth: 640,
-					maxWidth: 640,
-					minHeight: 320,
-					maxHeight: 320
-				}
-			}
-		}
-		navigator.mediaDevices.getUserMedia(constraints)
+	if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+		console.log('getUserMedia is not supported!');
+		return;
+	}
+	var deviceId = videoSource.value; 
+
+	//electron 截图，两种方式：desktopCapturer.getSources 与 navigator.mediaDevices.getUserMedia
+	//var sources = desktopCapturer.getSources({ types: ['screen'] });
+	//console.log("sources screen",sources);
+
+	var constraints = {
+		video : {
+			width: 640,	
+			height: 480,
+			frameRate:15,
+			facingMode: 'enviroment',
+			deviceId : deviceId ? {exact:deviceId} : undefined 
+		}, 
+		audio : false 
+	}
+	navigator.mediaDevices.getUserMedia(constraints)
 		.then(gotMediaStream)
-		.catch(handleError);
-		sources.forEach((source) => {
-			console.log("source=",source);
-			var option = document.createElement('option');
-			option.text = source.name;
-			option.value = source.id;
-			videoSource.appendChild(option);		
-		})
-	})	
+		.then(gotDevices)
+		.catch(handleError);	
 }
+
 start();
 
 videoSource.onchange = start;
@@ -198,19 +149,16 @@ function stopRecord(){
 }
 
 btnRecord.onclick = ()=>{
-
 	if(btnRecord.textContent === 'Start Record'){
 		startRecord();	
 		btnRecord.textContent = 'Stop Record';
 		btnPlay.disabled = true;
 		btnDownload.disabled = true;
 	}else{
-	
 		stopRecord();
 		btnRecord.textContent = 'Start Record';
 		btnPlay.disabled = false;
 		btnDownload.disabled = false;
-
 	}
 }
 
