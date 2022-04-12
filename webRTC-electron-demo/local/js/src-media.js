@@ -76,7 +76,7 @@ function sendMessage(roomid, data){
 function conn(){
 	console.log("socket start");
 	//socket = io.connect();
-	socket = io("ws://127.0.0.1"); 
+	socket = io("wss://127.0.0.1"); 
 	console.log("socket end");
 
 	socket.on('joined', (roomid, id) => {
