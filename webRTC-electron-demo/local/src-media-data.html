@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<title>WebRTC PeerConnection</title>
+		<link href="./css/main.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div>
+			<a href="index.html">返回</a>
+		</div>	
+		<div>web访问 https://localhost/peer/des-media-data.html</div>	
+		<div>
+			<div>
+				<button id="connserver">启动</button>
+				<button id="leave" disabled>关闭</button>	
+
+				<label>接收桌面控制消息</label>
+				<input type="text" disabled id="showData" value="" />
+				<button id="sendBtn">Send</button>				
+			</div>	
+			<div id="preview">
+				<div >
+					<h2>本地画面:</h2>
+					<video id="localvideo" autoplay playsinline muted></video>
+					<h2>Offer SDP:</h2>
+					<textarea id="offer"></textarea>
+				</div>
+				<div>
+					<h2>远端画面:</h2>
+					<video id="remotevideo" autoplay playsinline></video>
+					<h2>Answer SDP:</h2>
+					<textarea id="answer"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<!-- <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> -->
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script> -->
+		<script src="./js/libs/adapter-latest.js"></script>
+		<script src="./js/libs/socket.io.js"></script>
+		<script src="js/src-media-data.js"></script>
+	</body>
+</html>
