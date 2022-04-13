@@ -267,9 +267,9 @@ function start(){
 					chromeMediaSource: 'desktop',
 					chromeMediaSourceId: source.id,
 					minWidth: 640,
-					maxWidth: 640,
+					maxWidth: 1920,
 					minHeight: 320,
-					maxHeight: 320
+					maxHeight: 1080
 				}
 			}
 		}

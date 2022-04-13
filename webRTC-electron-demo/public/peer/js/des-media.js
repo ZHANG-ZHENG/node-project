@@ -209,10 +209,10 @@ function connSignalServer(){
 function getMediaStream(stream){
 
 	if(localStream){
-		stream.getAudioTracks().forEach((track)=>{
-			localStream.addTrack(track);	
-			stream.removeTrack(track);
-		});
+		// stream.getAudioTracks().forEach((track)=>{
+		// 	localStream.addTrack(track);	
+		// 	stream.removeTrack(track);
+		// });
 	}else{
 		localStream = stream;	
 	}
@@ -233,25 +233,27 @@ function getMediaStream(stream){
 
 function getDeskStream(stream){
 	localStream = stream;
+	localVideo.srcObject = localStream;
+	conn();
 }
 
 function handleError(err){
 	console.error('Failed to get Media Stream!', err);
 }
 
-function shareDesk(){
+// function shareDesk(){
 
-	if(IsPC()){
-		navigator.mediaDevices.getDisplayMedia({video: true})
-			.then(getDeskStream)
-			.catch(handleError);
+// 	if(IsPC()){
+// 		navigator.mediaDevices.getDisplayMedia({video: true,audio: false})
+// 			.then(getDeskStream)
+// 			.catch(handleError);
 
-		return true;
-	}
+// 		return true;
+// 	}
 
-	return false;
+// 	return false;
 
-}
+// }
 
 function start(){
 	if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
@@ -259,24 +261,30 @@ function start(){
 		return;
 	}else {
 		var constraints;
-		if( shareDeskBox.checked && shareDesk()){
+		if( shareDeskBox.checked){
 			constraints = {
-				video: false,
-				audio:  {
-					echoCancellation: true,
-					noiseSuppression: true,
-					autoGainControl: true
-				}
+				video: true,
+				audio:  false
+				// audio:  {
+				// 	echoCancellation: true,
+				// 	noiseSuppression: true,
+				// 	autoGainControl: true
+				// }
 			}
+			navigator.mediaDevices.getDisplayMedia(constraints)
+			.then(getDeskStream)
+			.catch(handleError);
 		}else{
 			constraints = {
 				video: true,
 				audio:  false
-			}
+			}	
+			navigator.mediaDevices.getUserMedia(constraints)
+			.then(getMediaStream)
+			.catch(handleError);		
 		}
-		navigator.mediaDevices.getUserMedia(constraints)
-					.then(getMediaStream)
-					.catch(handleError);
+		
+
 	}
 }
 
