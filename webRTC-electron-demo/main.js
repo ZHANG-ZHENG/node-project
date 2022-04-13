@@ -44,8 +44,8 @@ var http_server = http.createServer(app);
 http_server.listen(80, '0.0.0.0');
 
 var options = {
-	key : fs.readFileSync('./cert/zztest.com.key'),
-	cert: fs.readFileSync('./cert/zztest.com.pem')
+	key : fs.readFileSync('./cert/zdomain.top.key'),
+	cert: fs.readFileSync('./cert/zdomain.top.pem')
 }
 
 //https server
@@ -101,7 +101,7 @@ https_server.listen(443, '0.0.0.0');
 
 // https://127.0.0.1/stream/media.html https://127.0.0.1/peer/src.html https://127.0.0.1/peer/des.html
 // https://172.20.124.233/peer/src.html
-// https://172.20.124.233/peer/src.html https://172.20.124.233/peer/des.html
+// https://172.20.124.233/peer/src.html https://172.20.124.233/peer/des.html https://test.zdomain.top/peer/des.html
 // https://127.0.0.1/chatroom/index.html https://127.0.0.1/peer/des.html
 
 // const { app, BrowserWindow } = require('electron')
