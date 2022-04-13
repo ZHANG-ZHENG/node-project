@@ -2,7 +2,7 @@
 const { desktopCapturer } = require('electron')
 
 var localVideo = document.querySelector('video#localvideo');
-var remoteVideo = document.querySelector('video#remotevideo');
+// var remoteVideo = document.querySelector('video#remotevideo');
 
 var btnConn =  document.querySelector('button#connserver');
 var btnLeave = document.querySelector('button#leave');
@@ -19,7 +19,7 @@ var pcConfig = {
 };
 
 var localStream = null;
-var remoteStream = null;
+// var remoteStream = null;
 
 var pc = null;
 var pcReceiveChannel = null;
@@ -247,10 +247,10 @@ function start(){
 
 }
 
-function getRemoteStream(e){
-	remoteStream = e.streams[0];
-	remoteVideo.srcObject = e.streams[0];
-}
+// function getRemoteStream(e){
+// 	remoteStream = e.streams[0];
+// 	remoteVideo.srcObject = e.streams[0];
+// }
 
 function handleOfferError(err){
 	console.error('Failed to create offer:', err);
@@ -300,7 +300,7 @@ function createPeerConnection(){
 			}
 		}
 
-		pc.ontrack = getRemoteStream;
+		//pc.ontrack = getRemoteStream;
 
 		pc.createDataChannel('sendDataChannel');
 		pc.ondatachannel = (event) => {

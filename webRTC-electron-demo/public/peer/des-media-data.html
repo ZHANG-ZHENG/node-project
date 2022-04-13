@@ -7,7 +7,6 @@
 	<body>
 		<div>
 			<div>
-				<input id="shareDesk" type="checkbox"/><label for="shareDesk">Share Desktop</label>
 				<button id="connserver">启动</button>
 				<button id="leave" disabled>关闭</button>	
 
@@ -19,18 +18,13 @@
 				<div>
 					<span>远端画面:</span>
 					<video id="remotevideo" autoplay playsinline></video>
+					<h2>Offer SDP:</h2>
+					<textarea id="offer"></textarea>					
 					<h2>Answer SDP:</h2>
 					<textarea id="answer"></textarea>
 				</div>
 			</div>
-			<div id="preview">
-				<div >
-					<h2>本地画面:</h2>
-					<video id="localvideo" autoplay playsinline muted></video>
-					<h2>Offer SDP:</h2>
-					<textarea id="offer"></textarea>
-				</div>
-			</div>
+
 		</div>
 
 		<!-- <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> -->

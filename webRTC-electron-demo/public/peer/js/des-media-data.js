@@ -1,6 +1,6 @@
 'use strict'
 
-var localVideo = document.querySelector('video#localvideo');
+
 var remoteVideo = document.querySelector('video#remotevideo');
 
 var btnConn =  document.querySelector('button#connserver');
@@ -9,7 +9,6 @@ var btnLeave = document.querySelector('button#leave');
 var offer = document.querySelector('textarea#offer');
 var answer = document.querySelector('textarea#answer');
 
-var shareDeskBox  = document.querySelector('input#shareDesk');
 
 var pcConfig = {
   'iceServers': [{
@@ -54,7 +53,6 @@ function conn(){
 		//
 		//create conn and bind media track
 		createPeerConnection();
-		bindTracks();
 
 		btnConn.disabled = true;
 		btnLeave.disabled = false;
@@ -68,7 +66,6 @@ function conn(){
 		//
 		if(state === 'joined_unbind'){
 			createPeerConnection();
-			bindTracks();
 		}
 
 		state = 'joined_conn';
@@ -164,94 +161,8 @@ function conn(){
 	return true;
 }
 
-function connSignalServer(){
-	
-	//开启本地视频
-	start();
-
-	return true;
-}
-
-function getMediaStream(stream){
-
-	if(localStream){
-		// stream.getAudioTracks().forEach((track)=>{
-		// 	localStream.addTrack(track);	
-		// 	stream.removeTrack(track);
-		// });
-	}else{
-		localStream = stream;	
-	}
-
-	localVideo.srcObject = localStream;
-
-	//这个函数的位置特别重要，
-	//一定要放到getMediaStream之后再调用
-	//否则就会出现绑定失败的情况
-	//
-	//setup connection
-	conn();
-
-	//btnStart.disabled = true;
-	//btnCall.disabled = true;
-	//btnHangup.disabled = true;
-}
-
-function getDeskStream(stream){
-	localStream = stream;
-	localVideo.srcObject = localStream;
-	conn();
-}
-
 function handleError(err){
 	console.error('Failed to get Media Stream!', err);
-}
-
-// function shareDesk(){
-
-// 	if(IsPC()){
-// 		navigator.mediaDevices.getDisplayMedia({video: true,audio: false})
-// 			.then(getDeskStream)
-// 			.catch(handleError);
-
-// 		return true;
-// 	}
-
-// 	return false;
-
-// }
-
-function start(){
-	if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-		console.error('the getUserMedia is not supported!');
-		return;
-	}else {
-		var constraints;
-		if( shareDeskBox.checked){
-			constraints = {
-				video: true,
-				audio:  false
-				// audio:  {
-				// 	echoCancellation: true,
-				// 	noiseSuppression: true,
-				// 	autoGainControl: true
-				// }
-			}
-			navigator.mediaDevices.getDisplayMedia(constraints)
-			.then(getDeskStream)
-			.catch(handleError);
-		}else{
-			constraints = {
-				video: true,
-				audio:  false
-			}	
-			navigator.mediaDevices.getUserMedia(constraints)
-			.then(getMediaStream)
-			.catch(handleError);		
-		}
-		
-
-	}
 }
 
 function getRemoteStream(e){
@@ -286,7 +197,6 @@ function getOffer(desc){
 }
 
 function createPeerConnection(){
-
 	//如果是多人的话，在这里要创建一个新的连接.
 	//新创建好的要放到一个map表中。
 	//key=userid, value=peerconnection
@@ -321,32 +231,8 @@ function createPeerConnection(){
 	}else {
 		console.warning('the pc have be created!');
 	}
-
-	return;	
 }
 
-//绑定永远与 peerconnection在一起，
-//所以没必要再单独做成一个函数
-function bindTracks(){
-
-	console.log('bind tracks into RTCPeerConnection!');
-
-	if( pc === null || pc === undefined) {
-		console.error('pc is null or undefined!');
-		return;
-	}
-
-	if(localStream === null || localStream === undefined) {
-		console.error('localstream is null or undefined!');
-		return;
-	}
-
-	//add all track into peer connection
-	localStream.getTracks().forEach((track)=>{
-		pc.addTrack(track, localStream);	
-	});
-
-}
 
 function call(){
 	
@@ -364,15 +250,11 @@ function call(){
 }
 
 function hangup(){
-
 	if(pc) {
-
 		offerdesc = null;
-		
 		pc.close();
 		pc = null;
 	}
-
 }
 
 function closeLocalMedia(){
@@ -400,7 +282,7 @@ function leave() {
 	btnLeave.disabled = true;
 }
 
-btnConn.onclick = connSignalServer
+btnConn.onclick = conn;
 btnLeave.onclick = leave;
 
 document.querySelector("button#sendBtn").onclick = () => {
