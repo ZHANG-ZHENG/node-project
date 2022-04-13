@@ -23,44 +23,11 @@ var remoteStream = null;
 
 var pc = null;
 
-var roomid;
+var roomid="room-test";
 var socket = null;
 
 var offerdesc = null;
 var state = 'init';
-
-// 以下代码是从网上找的 http://localhost
-//=========================================================================================
-
-//如果返回的是false说明当前操作系统是手机端，如果返回的是true则说明当前的操作系统是电脑端
-function IsPC() {
-	var userAgentInfo = navigator.userAgent;
-	var Agents = ["Android", "iPhone","SymbianOS", "Windows Phone","iPad", "iPod"];
-	var flag = true;
-
-	for (var v = 0; v < Agents.length; v++) {
-		if (userAgentInfo.indexOf(Agents[v]) > 0) {
-			flag = false;
-			break;
-		}
-	}
-
-	return flag;
-}
-
-//获取url参数
-function getQueryVariable(variable)
-{
-       var query = window.location.search.substring(1);
-       var vars = query.split("&");
-       for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if(pair[0] == variable){return pair[1];}
-       }
-       return(false);
-}
-
-//=======================================================================
 
 function sendMessage(roomid, data){
 
@@ -192,8 +159,6 @@ function conn(){
 	
 	});
 
-
-	roomid = getQueryVariable('room');
 	socket.emit('join', roomid);
 
 	return true;
@@ -419,3 +384,6 @@ function leave() {
 
 btnConn.onclick = connSignalServer
 btnLeave.onclick = leave;
+
+//页面加载启动
+start();
