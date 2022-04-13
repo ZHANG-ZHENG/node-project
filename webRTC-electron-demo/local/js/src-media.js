@@ -10,8 +10,6 @@ var btnLeave = document.querySelector('button#leave');
 var offer = document.querySelector('textarea#offer');
 var answer = document.querySelector('textarea#answer');
 
-var shareDeskBox  = document.querySelector('input#shareDesk');
-
 var pcConfig = {
   'iceServers': [{
     'urls': 'stun:stun.l.google.com:19302',
@@ -234,64 +232,13 @@ function getMediaStream(stream){
 	//btnHangup.disabled = true;
 }
 
-function getDeskStream(stream){
-	localStream = stream;
-}
 
 function handleError(err){
 	console.error('Failed to get Media Stream!', err);
 }
 
-function shareDesk(){
-
-	if(IsPC()){
-		navigator.mediaDevices.getDisplayMedia({video: true})
-			.then(getDeskStream)
-			.catch(handleError);
-
-		return true;
-	}
-
-	return false;
-
-}
 
 function start(){
-
-	// if(!navigator.mediaDevices ||
-	// 	!navigator.mediaDevices.getUserMedia){
-	// 	console.error('the getUserMedia is not supported!');
-	// 	return;
-	// }else {
-
-	// 	var constraints;
-
-	// 	if( shareDeskBox.checked && shareDesk()){
-
-	// 		constraints = {
-	// 			video: false,
-	// 			audio:  {
-	// 				echoCancellation: true,
-	// 				noiseSuppression: true,
-	// 				autoGainControl: true
-	// 			}
-	// 		}
-
-	// 	}else{
-	// 		constraints = {
-	// 			video: true,
-	// 			audio:  {
-	// 				echoCancellation: true,
-	// 				noiseSuppression: true,
-	// 				autoGainControl: true
-	// 			}
-	// 		}
-	// 	}
-
-	// 	navigator.mediaDevices.getUserMedia(constraints)
-	// 				.then(getMediaStream)
-	// 				.catch(handleError);
-	// }
 	desktopCapturer.getSources({
 			types: ['screen'],
 			thumbnailSize: {

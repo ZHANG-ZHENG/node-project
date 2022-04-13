@@ -133,9 +133,14 @@ electronApp.commandLine.appendSwitch('ignore-certificate-errors');//https://blog
 let mainWindow
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 1280, height: 720})
+  mainWindow = new BrowserWindow({
+    width: 800, 
+    height: 600,
+    title: "rj远程桌面"
+  });
+  mainWindow.setWin
 
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
   //mainWindow.webContents.openDevTools({mode: 'bottom'});  
 
   mainWindow.loadFile('local/index.html');
