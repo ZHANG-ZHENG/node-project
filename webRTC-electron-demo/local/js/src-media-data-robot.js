@@ -246,8 +246,8 @@ function start(){
 					chromeMediaSourceId: source.id,
 					minWidth: 1600,
 					maxWidth: 1600,
-					minHeight: 840,
-					maxHeight: 840
+					minHeight: 900,
+					maxHeight: 900
 				}
 			}
 		}
@@ -330,6 +330,7 @@ function createPeerConnection(){
 }
 
 function onReceiveMessage(event) {
+	console.log("收到事件数据",event.data);
 	document.querySelector("input#showData").value = event.data;
 	sendMessageRobot(roomid, event.data);
 	

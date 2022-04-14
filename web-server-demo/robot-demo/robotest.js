@@ -1,20 +1,8 @@
 // Move the mouse across the screen as a sine wave.
 var robot = require("robotjs");
-
-// Speed up the mouse.
-// robot.setMouseDelay(2);
-
-// var twoPI = Math.PI * 2.0;
-// var screenSize = robot.getScreenSize();
-// var height = (screenSize.height / 2) - 10;
-// var width = screenSize.width;
-
-//for (var x = 0; x < width; x++)
-//{
-	//y = height * Math.sin((twoPI * x) / width) + height;
-	//robot.moveMouse(x, y);
-//}
+//测试
 robot.moveMouse(200, 200);
+//robot.mouseClick();
 
 
 var http = require('http');
@@ -57,7 +45,7 @@ app.use(express.static('./public'));
 
 //http server
 var http_server = http.createServer(app);
-http_server.listen(8080, '0.0.0.0');
+//http_server.listen(8080, '0.0.0.0');
 
 var options = {
 	key : fs.readFileSync('./cert/zztest.com.key'),
@@ -69,15 +57,20 @@ var https_server = https.createServer(options, app);
 
 //bind socket.io with https_server
 var io = socketIo.listen(https_server); //TypeError: socketIo.listen is not a function 降级 npm install -s socket.io@2.0.3
-var sockio = socketIo.listen(http_server);
+//var sockio = socketIo.listen(http_server);
 
 //connection
 io.sockets.on('connection', (socket)=>{
 
 	socket.on('message', (room, data)=>{
-		logger.log('message is: ' + data);
-		//socket.to(room).emit('message', room, data)//房间内所有人,除自己外
-		robot.moveMouse(200, 200);
+		var obj = JSON.parse(data);
+		console.log("obj.event",obj.event);
+		if(obj.event=="mousemove"){
+			console.log("obj.event",obj.event+",x="+obj.x+",y="+obj.y);
+			robot.moveMouse(obj.x, obj.y);
+		}else if(obj.event=="click"){
+			robot.mouseClick();
+		}	
 	});
 
 	//该函数应该加锁
@@ -125,37 +118,37 @@ io.sockets.on('connection', (socket)=>{
 });
 
 //connection
-sockio.sockets.on('connection', (socket)=>{
+// sockio.sockets.on('connection', (socket)=>{
 
-	socket.on('message', (room, data)=>{
-		//sockio.in(room).emit('message', room, socket.id, data)//房间内所有人
-		robot.moveMouse(200, 200);
-	});
+// 	socket.on('message', (room, data)=>{
+// 		//sockio.in(room).emit('message', room, socket.id, data)//房间内所有人
+// 		//robot.moveMouse(1, 1);
+// 	});
 
-	socket.on('join', (room)=> {
-		socket.join(room);
-		var myRoom = sockio.sockets.adapter.rooms[room];
-		var users = Object.keys(myRoom.sockets).length;
-		logger.log('the number of user in room is: ' + users);
-	 	socket.emit('joined', room, socket.id);	
-	 	//socket.to(room).emit('joined', room, socket.id);//除自己之外
-		//io.in(room).emit('joined', room, socket.id)//房间内所有人
-	 	//socket.broadcast.emit('joined', room, socket.id);//除自己，全部站点	
-	});
+// 	socket.on('join', (room)=> {
+// 		socket.join(room);
+// 		var myRoom = sockio.sockets.adapter.rooms[room];
+// 		var users = Object.keys(myRoom.sockets).length;
+// 		logger.log('the number of user in room is: ' + users);
+// 	 	socket.emit('joined', room, socket.id);	
+// 	 	//socket.to(room).emit('joined', room, socket.id);//除自己之外
+// 		//io.in(room).emit('joined', room, socket.id)//房间内所有人
+// 	 	//socket.broadcast.emit('joined', room, socket.id);//除自己，全部站点	
+// 	});
 
-	socket.on('leave', (room)=> {
-		var myRoom = sockio.sockets.adapter.rooms[room];
-		var users = Object.keys(myRoom.sockets).length;
-		//users - 1;
+// 	socket.on('leave', (room)=> {
+// 		var myRoom = sockio.sockets.adapter.rooms[room];
+// 		var users = Object.keys(myRoom.sockets).length;
+// 		//users - 1;
 
-		logger.log('the number of user in room is: ' + (users-1));
+// 		logger.log('the number of user in room is: ' + (users-1));
 
-		socket.leave(room);
-	 	socket.emit('leaved', room, socket.id);	
-	 	//socket.to(room).emit('joined', room, socket.id);//除自己之外
-		//io.in(room).emit('joined', room, socket.id)//房间内所有人
-	 	//socket.broadcast.emit('joined', room, socket.id);//除自己，全部站点	
-	});
-});
+// 		socket.leave(room);
+// 	 	socket.emit('leaved', room, socket.id);	
+// 	 	//socket.to(room).emit('joined', room, socket.id);//除自己之外
+// 		//io.in(room).emit('joined', room, socket.id)//房间内所有人
+// 	 	//socket.broadcast.emit('joined', room, socket.id);//除自己，全部站点	
+// 	});
+// });
 
 https_server.listen(8443, '0.0.0.0');

@@ -286,6 +286,6 @@ btnConn.onclick = conn;
 btnLeave.onclick = leave;
 
 document.querySelector("button#sendBtn").onclick = () => {
-	var data = document.querySelector("#inputData").value;
+	var data = document.querySelector("#inputData").value;	
 	pcSendChannel.send(data);
 };
