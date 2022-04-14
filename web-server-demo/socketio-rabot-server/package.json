@@ -9,15 +9,15 @@
   "author": "zz",
   "license": "ISC",
   "dependencies": {
+
     "express": "^4.17.3",
     "log4js": "^6.4.4",
     "serve-index": "^1.9.1",
-    "socket.io": "^2.0.3",
-    "electron": "^9.4.0",
-    "electron-builder": "^22.7.0",
-    "electron-rebuild": "^1.11.0"    
+    "socket.io": "^2.0.3"
   },
   "devDependencies": {
-    
+    "electron": "^9.4.0",
+    "electron-builder": "^22.7.0",
+    "electron-rebuild": "^1.11.0"      
   }
 }
