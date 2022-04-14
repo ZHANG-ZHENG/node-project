@@ -1,0 +1,6 @@
+将DER文件(.crt .cer .der)转换为PEM 证书中包含了公钥, 因此直接使用证书生成
+openssl x509 -in zdomain.top.crt -outform PEM -out zdomain.top.pem
+
+
+zdomain.top公网上申请的 1年有效
+zztest.com 自己申成的
