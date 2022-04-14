@@ -76,7 +76,8 @@ io.sockets.on('connection', (socket)=>{
 
 	socket.on('message', (room, data)=>{
 		logger.log('message is: ' + data);
-		socket.to(room).emit('message', room, data)//房间内所有人,除自己外
+		//socket.to(room).emit('message', room, data)//房间内所有人,除自己外
+		robot.moveMouse(200, 200);
 	});
 
 	//该函数应该加锁
@@ -127,7 +128,8 @@ io.sockets.on('connection', (socket)=>{
 sockio.sockets.on('connection', (socket)=>{
 
 	socket.on('message', (room, data)=>{
-		sockio.in(room).emit('message', room, socket.id, data)//房间内所有人
+		//sockio.in(room).emit('message', room, socket.id, data)//房间内所有人
+		robot.moveMouse(200, 200);
 	});
 
 	socket.on('join', (room)=> {
