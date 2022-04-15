@@ -1,5 +1,5 @@
 {
-  "name": "webRTC-electron-robot-demo",
+  "name": "electron-demo",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -10,11 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.3",
+    "log4js": "^6.4.4",
     "serve-index": "^1.9.1",
     "socket.io": "^2.0.3"
   },
   "devDependencies": {
-    "electron": "^7.3.2",
-    "electron-rebuild": "^3.2.7"
+    "electron": "^7.3.2"
   }
 }
