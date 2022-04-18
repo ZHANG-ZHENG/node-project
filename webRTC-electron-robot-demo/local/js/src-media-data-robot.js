@@ -1,6 +1,6 @@
 'use strict'
 const { desktopCapturer } = require('electron')
-
+var robot = require("@jitsi/robotjs");
 var localVideo = document.querySelector('video#localvideo');
 // var remoteVideo = document.querySelector('video#remotevideo');
 
@@ -30,6 +30,7 @@ var socketRobot = null;
 
 var offerdesc = null;
 var state = 'init';
+document.querySelector('#screensize').innerHTML=`宽高比${JSON.stringify(robot.getScreenSize())}`;
 
 function sendMessage(roomid, data){
 
@@ -45,7 +46,36 @@ function sendMessageRobot(roomid, data){
 	if(!socketRobot){
 		console.log('socketRobot is null');
 	}
-	socketRobot.emit('message', roomid, data);
+   	var obj = JSON.parse(data);
+		console.log("obj.event",obj.event);
+		switch (obj.event){
+			case 'mousemove':
+			console.log("obj.event",obj.event+",x="+obj.x+",y="+obj.y);
+			if(obj.drag==1){
+				robot.mouseToggle("down");
+				robot.dragMouse(obj.x, obj.y);
+			}else{
+				robot.moveMouse(obj.x, obj.y);
+			}  
+
+			break;
+		case "click" :
+			robot.mouseClick();
+			break;
+		case "contextmenu" :
+			robot.mouseClick('right',false);
+			break;
+	   case "mousewheel" :
+		console.log("obj.event",obj.event+",x="+obj.x+",y="+obj.y);
+			robot.scrollMouse(obj.x, obj.y );
+		break;
+		case "keyTap" :
+			console.log("obj.event",obj.event+",key="+obj.key+",y="+obj.y);
+		 robot.keyTap(obj.key);
+			break;		
+		}
+
+	//socketRobot.emit('message', roomid, data);
 }
 
 function conn(){

@@ -4,7 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+     "rebuild":"npm rebuild --runtime=electron --target=7.3.3 --disturl=https://atom.io/download/atom-shell --abi=75"
   },
   "author": "zz",
   "license": "ISC",
@@ -12,9 +13,11 @@
     "express": "^4.17.3",
     "log4js": "^6.4.4",
     "serve-index": "^1.9.1",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "@jitsi/robotjs": "^0.6.9"
   },
   "devDependencies": {
-    "electron": "^7.3.2"
+    "electron": "^7.3.2",
+    "electron-rebuild": "^3.2.7"
   }
 }
