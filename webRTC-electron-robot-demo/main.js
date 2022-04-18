@@ -76,36 +76,10 @@ io.sockets.on('connection', (socket)=> {
 
 https_server.listen(443, '0.0.0.0');
 
-// https://127.0.0.1/stream/media.html https://127.0.0.1/peer/src.html https://127.0.0.1/peer/des.html
-// https://172.20.124.233/peer/src.html
-// https://172.20.124.233/peer/src.html https://172.20.124.233/peer/des.html https://test.zdomain.top/peer/des.html
-// https://127.0.0.1/chatroom/index.html https://127.0.0.1/peer/des.html
-
-// const { app, BrowserWindow } = require('electron')
-// const path = require('path')
-
-// function createWindow () {
-//   let win = new BrowserWindow({
-//     width: 800,
-//     height: 600,
-//     webPreferences: {
-//       // preload: path.join(__dirname, 'preload.js'),
-//       nodeIntegration: false,
-//       // devTools: true,
-//       // webSecurity:false,
-//       // experimentalFeatures:true,
-//       // contextIsolation:false
-//     }
-//   });
-//   win.webContents.openDevTools();
-//   win.loadFile('index.html');
-// }
-// app.whenReady().then(createWindow)
 
 const electron = require('electron')
 const electronApp = electron.app
 const BrowserWindow = electron.BrowserWindow
-const BrowserView = electron.BrowserView
 electronApp.commandLine.appendSwitch('ignore-certificate-errors');//https://blog.csdn.net/chengzhf/article/details/106873649 Electron中使用socket.io
 let mainWindow
 
@@ -113,11 +87,15 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 800, 
     height: 600,
-    title: "rj远程桌面"
+    title: "rj远程桌面",
+	webPreferences:{
+		nodeIntegration:true,  
+		contextIsolation:false    
+	}	
   });
   mainWindow.setWin
 
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
   //mainWindow.webContents.openDevTools({mode: 'bottom'});  
 
   mainWindow.loadFile('local/index.html');

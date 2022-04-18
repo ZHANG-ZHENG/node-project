@@ -104,27 +104,14 @@ function handleError(err){
 // }
 function start() {
 	desktopCapturer.getSources({
-			types: ['screen'],
-			thumbnailSize: {
-				width: 320,
-				height: 240
-			}
-		}, (error, sources) => {
-		if (error){
-			console.error(error)
+		types: ['screen'],
+		thumbnailSize: {
+			width: 320,
+			height: 240,
 		}
-		var source = sources[0];
+	}).then( sources =>{
+		var source = sources[0];	
 		var constraints = {
-			video : {
-				width: 640,	
-				height: 480,
-				frameRate:15,
-				facingMode: 'enviroment',
-				deviceId : source.id 
-			}, 
-			audio : false 
-		}	
-		constraints = {
 			audio: false,
 			video: {
 				mandatory: {
@@ -140,7 +127,6 @@ function start() {
 		navigator.mediaDevices.getUserMedia(constraints)
 		.then(gotMediaStream)
 		.catch(handleError);
-		
 		sources.forEach((source) => {
 			console.log("source=",source);
 			var option = document.createElement('option');
@@ -148,7 +134,9 @@ function start() {
 			option.value = source.id;
 			videoSource.appendChild(option);		
 		})
-	})	
+	}).catch( error => {
+		console.error('desktopCapturer.getSources 失败',error);
+	});		
 }
 start();
 

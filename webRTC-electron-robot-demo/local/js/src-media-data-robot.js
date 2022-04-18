@@ -218,15 +218,13 @@ function handleError(err){
 
 function start(){
 	desktopCapturer.getSources({
-			types: ['screen'],
-			thumbnailSize: {
-				width: 320,
-				height: 240
-			}
-		}, (error, sources) => {
-		if (error){
-			console.error(error)
+		types: ['screen'],
+		thumbnailSize: {
+			width: 320,
+			height: 240,
 		}
+	}).then( sources =>{
+		console.log("sources",sources);
 		var source = sources[0];
 		var constraints = {
 			video : {
@@ -244,19 +242,19 @@ function start(){
 				mandatory: {
 					chromeMediaSource: 'desktop',
 					chromeMediaSourceId: source.id,
-					minWidth: 1600,
-					maxWidth: 1600,
-					minHeight: 900,
-					maxHeight: 900
+					minWidth: 640,
+					maxWidth: 1920,
+					minHeight: 320,
+					maxHeight: 1080
 				}
 			}
 		}
 		navigator.mediaDevices.getUserMedia(constraints)
 		.then(getMediaStream)
-		.catch(handleError);
-		
-	})	
-
+		.catch(handleError);		
+	}).catch( error => {
+		console.error('desktopCapturer.getSources 失败',error);
+	});		
 }
 
 // function getRemoteStream(e){
