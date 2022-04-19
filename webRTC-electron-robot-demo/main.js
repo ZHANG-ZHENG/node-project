@@ -9,6 +9,8 @@ var express = require('express');
 var serveIndex = require('serve-index');
 
 var USERCOUNT = 3;
+var config = require('./config/config.json');
+console.log("httpsServerPort="+config.httpsServerPort);
 
 var app = express();
 app.use(serveIndex('./public'));
@@ -74,7 +76,7 @@ io.sockets.on('connection', (socket)=> {
 
 });
 
-https_server.listen(443, '0.0.0.0');
+https_server.listen(config.httpsServerPort, '0.0.0.0');
 
 
 const electron = require('electron')

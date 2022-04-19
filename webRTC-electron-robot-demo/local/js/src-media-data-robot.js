@@ -1,6 +1,8 @@
 'use strict'
 const { desktopCapturer } = require('electron')
 var robot = require("@jitsi/robotjs");
+var config = require('../config/config.json');
+
 var localVideo = document.querySelector('video#localvideo');
 // var remoteVideo = document.querySelector('video#remotevideo');
 
@@ -30,6 +32,7 @@ var socket = null;
 
 var offerdesc = null;
 var state = 'init';
+document.querySelector('#webAddress').innerHTML = "web访问地址 https://localhost:"+config.httpsServerPort+"/peer/des-media-data-robot.html";
 document.querySelector('#screensize').innerHTML=`宽高比${JSON.stringify(robot.getScreenSize())}`;
 
 function sendMessage(roomid, data){
@@ -87,7 +90,7 @@ function conn(){
 	
 	console.log("socket start");
 	//socket = io.connect();
-	socket = io("wss://127.0.0.1"); 
+	socket = io("wss://127.0.0.1:"+config.httpsServerPort); 
 	console.log("socket end");
 
 	socket.on('joined', (roomid, id) => {

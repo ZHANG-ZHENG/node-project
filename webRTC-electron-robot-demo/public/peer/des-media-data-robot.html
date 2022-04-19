@@ -20,7 +20,7 @@
 					<!-- <video id="remote-video" style="max-height:400px;background-color:gainsboro;"  autoplay></video> -->
 					<!-- <video id="remote-video" style="height:840;width:1600;background-color:gainsboro;"  autoplay></video> -->
 					<video id="remotevideo"
-					style="height:400px;width:1600px;background-color:gainsboro;" autoplay playsinline></video>
+					style="height:600px;width:1600px;background-color:gainsboro;" autoplay playsinline></video>
 					<h2>Offer SDP:</h2>
 					<textarea id="offer"></textarea>					
 					<h2>Answer SDP:</h2>
@@ -47,7 +47,8 @@
 		
 			 
 			// })   			
-			new MouseListener().init("remotevideo",{remoteScreen:[1920,1080]});
+			//new MouseListener().init("remotevideo",{remoteScreen:[1920,1080]});
+			new MouseListener().init("remotevideo",{remoteScreen:[1600,900]});
 			//重写
 			MouseListener.prototype.postEvent=function(data){ 
    				console.log("获取的事件数据zzz",JSON.stringify(data));
