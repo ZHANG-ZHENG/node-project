@@ -62,6 +62,9 @@ function sendMessageRobot(roomid, data){
 		case "click" :
 			robot.mouseClick();
 			break;
+		case "dblclick" :
+		   robot.mouseClick("left",true);
+		 break;	
 		case "contextmenu" :
 			robot.mouseClick('right',false);
 			break;
