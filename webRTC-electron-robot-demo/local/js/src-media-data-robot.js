@@ -26,7 +26,7 @@ var pcReceiveChannel = null;
 
 var roomid="room-test";
 var socket = null;
-var socketRobot = null;
+// var socketRobot = null;
 
 var offerdesc = null;
 var state = 'init';
@@ -42,10 +42,10 @@ function sendMessage(roomid, data){
 }
 
 function sendMessageRobot(roomid, data){
-	console.log('send messageRobot to other end', roomid, data);
-	if(!socketRobot){
-		console.log('socketRobot is null');
-	}
+	// console.log('send messageRobot to other end', roomid, data);
+	// if(!socketRobot){
+	// 	console.log('socketRobot is null');
+	// }
    	var obj = JSON.parse(data);
 		console.log("obj.event",obj.event);
 		switch (obj.event){
@@ -82,8 +82,8 @@ function sendMessageRobot(roomid, data){
 }
 
 function conn(){
-	socketRobot = io("wss://127.0.0.1:8443");
-	socketRobot.emit('join', roomid);
+	// socketRobot = io("wss://127.0.0.1:8443");
+	// socketRobot.emit('join', roomid);
 	
 	console.log("socket start");
 	//socket = io.connect();
