@@ -8,6 +8,7 @@ var localVideo = document.querySelector('video#localvideo');
 
 var btnConn =  document.querySelector('button#connserver');
 var btnLeave = document.querySelector('button#leave');
+var optBw = document.querySelector('select#bandwidth')
 
 var offer = document.querySelector('textarea#offer');
 var answer = document.querySelector('textarea#answer');
@@ -448,8 +449,41 @@ function leave() {
 	btnLeave.disabled = true;
 }
 
-btnConn.onclick = connSignalServer
+//控制传输速率
+function chang_bw(){
+	//optBw.disabled =true;
+	var bw = optBw.options[optBw.selectedIndex].value;
+	
+	var vsender = null;
+	var senders = pc.getSenders();
+	senders.forEach(sender=>{
+		if(sender&&sender.track && sender.track.kind === 'video'){
+			vsender = sender;
+		}	
+	});
+	var parameters= vsender.getParameters();
+	if(!parameters.encodings){
+		return;
+	}
+	if(bw === 'unlimited'){
+		return;
+	}
+	console.log("parameters",parameters);
+	parameters.encodings[0].maxBitrate = bw * 1000;
+	vsender.setParameters(parameters)
+		   .then(()=>{
+		   		optBw.disabled =false;
+		   	 console.log('Successed to set parameters!');
+		   })
+		   .catch(err=>{
+		   		 console.error(err);
+		   })
+	
+}
+
+btnConn.onclick = connSignalServer;
 btnLeave.onclick = leave;
+optBw.onchange=chang_bw;
 
 //页面加载启动
 start();
