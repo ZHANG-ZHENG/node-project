@@ -36,6 +36,13 @@ var state = 'init';
 document.querySelector('#webAddress').innerHTML = "web访问地址 https://localhost:"+config.httpsServerPort+"/peer/des-media-data-robot.html";
 document.querySelector('#screensize').innerHTML=`宽高比${JSON.stringify(robot.getScreenSize())}`;
 
+let robotEventQueue = [];
+var msgX=0;
+var msgY=0;
+var nowX=0;
+var nowY=0;
+var robotTimer = null;
+
 function sendMessage(roomid, data){
 
 	console.log('send message to other end', roomid, data);
@@ -51,17 +58,45 @@ function sendMessageRobot(roomid, data){
 	// 	console.log('socketRobot is null');
 	// }
    	var obj = JSON.parse(data);
-		console.log("obj.event",obj.event);
 		switch (obj.event){
-			case 'mousemove':
-			console.log("obj.event",obj.event+",x="+obj.x+",y="+obj.y);
+		case 'mousemove':
 			if(obj.drag==1){
 				robot.mouseToggle("down");
 				robot.dragMouse(obj.x, obj.y);
 			}else{
-				robot.moveMouse(obj.x, obj.y);
-			}  
+				msgX=obj.x;
+				msgY=obj.y;
+				if(robotTimer==null){
+					robotTimer = setInterval(()=>{
+						if(msgX!=nowX || msgY!=nowY){
+							robot.moveMouse(msgX, msgY);
+							nowX = msgX;
+							nowY = msgY;
+						}
+						// else{
+						// 	console.log("no move");
+						// }
+					}, 5);
+				}				
+				// var len = robotEventQueue.unshift(obj);
+				// console.log('在开头添加元素后长度变为：' + len + '，添加后，数组为:' + robotEventQueue);
+				// if(robotTimer==null){
+				// 	robotTimer = setInterval(()=>{
+				// 		while(robotEventQueue.length>0){
+				// 			var lastObj = robotEventQueue.pop();
+				// 			console.log('在末尾移出元素：' + lastObj + '，移出后，数组为:' + robotEventQueue);
+				// 			if(robotEventQueue.length==0){
+				// 				if(lastObj){
+				// 					robot.moveMouse(lastObj.x, lastObj.y);
+				// 				}							
+				// 				break;
+				// 			}
+				// 		}
+				// 	}, 5);
+				// }
 
+				
+			}  
 			break;
 		case "click" :
 			robot.mouseClick();
