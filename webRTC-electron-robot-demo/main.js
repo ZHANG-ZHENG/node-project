@@ -13,8 +13,8 @@ var config = require('./config/config.json');
 console.log("httpsServerPort="+config.httpsServerPort);
 
 var app = express();
-app.use(serveIndex('./public'));
-app.use(express.static('./public'));
+app.use(serveIndex(__dirname+'/public'));
+app.use(express.static(__dirname+'/public'));
 
 
 
@@ -23,8 +23,8 @@ var http_server = http.createServer(app);
 http_server.listen(80, '0.0.0.0');
 
 var options = {
-	key : fs.readFileSync('./cert/zdomain.top.key'),
-	cert: fs.readFileSync('./cert/zdomain.top.pem')
+	key : fs.readFileSync(__dirname+'/cert/zdomain.top.key'),
+	cert: fs.readFileSync(__dirname+'/cert/zdomain.top.pem')
 }
 
 //https server

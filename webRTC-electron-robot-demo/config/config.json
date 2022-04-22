@@ -1,3 +1,4 @@
 {
-    "httpsServerPort":8843
+    "httpsServerPort":8843,
+    "socketSever":"wss://127.0.0.1:8843"
 }

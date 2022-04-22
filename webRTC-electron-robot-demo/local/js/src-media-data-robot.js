@@ -126,8 +126,11 @@ function conn(){
 	
 	console.log("socket start");
 	//socket = io.connect();
-	socket = io("wss://127.0.0.1:"+config.httpsServerPort); 
+	socket = io.connect(config.socketSever); 
 	console.log("socket end");
+	socket.on('connect_error', e => {
+		console.log('connect_error', e);
+	  });
 
 	socket.on('joined', (roomid, id) => {
 		console.log('receive joined message!', roomid, id);

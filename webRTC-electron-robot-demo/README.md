@@ -13,3 +13,7 @@ npm start
 
 ./node_modules/.bin/electron-rebuild
 ```
+
+
+## 打包相关脚本
+  electron-packager ./ scpRemoteApp --out ./scp-remote-pack   --arch=x64 --electron-version 7.3.3  --overwrite
