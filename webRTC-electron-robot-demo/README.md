@@ -16,4 +16,4 @@ npm start
 
 
 ## 打包相关脚本
-  electron-packager ./ scpRemoteApp --out ./scp-remote-pack   --arch=x64 --electron-version 7.3.3  --overwrite
+  在根目录下直接执行 npm run pack
