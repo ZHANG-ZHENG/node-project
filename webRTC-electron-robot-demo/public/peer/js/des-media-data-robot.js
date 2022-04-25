@@ -41,7 +41,15 @@ function sendMessage(roomid, data){
 
 function conn(){
 
-	socket = io.connect();
+	var socketHost = document.querySelector('#socketHost').value;
+	if(socketHost.length>0){
+		console.log("socketHost",socketHost);
+		socket = io.connect(socketHost);
+	}else{
+		console.log("socketHost default");
+		socket = io.connect();
+	}
+	
 
 	socket.on('joined', (roomid, id) => {
 		console.log('receive joined message!', roomid, id);
