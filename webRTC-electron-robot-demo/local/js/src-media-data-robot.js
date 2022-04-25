@@ -34,6 +34,7 @@ var socket = null;
 var offerdesc = null;
 var state = 'init';
 document.querySelector('#webAddress').innerHTML = "web访问地址 https://localhost:"+config.httpsServerPort+"/peer/des-media-data-robot.html";
+document.querySelector('#socketInfo').innerHTML = "socket地址："+config.socketSever+",socket房间："+roomid;
 document.querySelector('#screensize').innerHTML=`宽高比${JSON.stringify(robot.getScreenSize())}`;
 
 let robotEventQueue = [];
