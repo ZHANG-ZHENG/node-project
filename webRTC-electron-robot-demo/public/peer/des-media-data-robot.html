@@ -9,9 +9,11 @@
 			<div>
 				socket地址(空默认连接页面地址和端口)：<input id="socketHost" value="wss://182.61.37.107"/>
 				socket房间：<input value="room-test" disabled/>
+				强制使用中继服务器<input type="checkbox" id="useRelay" />
+			</div>
+			<div>
 				<button id="connserver">启动</button>
-				<button id="leave" disabled>关闭</button>	
-
+				<button id="leave" disabled>关闭</button>
 				<label>发送桌面控制消息</label>
 				<input type="text" id="inputData" value='{"event":"mousemove","x":834,"y":653}' />
 				<button id="sendBtn">Send</button>

@@ -10,13 +10,7 @@ var offer = document.querySelector('textarea#offer');
 var answer = document.querySelector('textarea#answer');
 
 
-var pcConfig = {
-  'iceServers': [{
-    'urls': 'stun:stun.l.google.com:19302',
-    //'credential': "mypasswd",
-    //'username': "garrylea"
-  }]
-};
+var pcConfig = {"iceServers":[{"urls":["stun:stun.l.google.com:19302"]},{"urls":["turn:linux.zdomain.top:3478"],"username":"admin","credential":"123456"}],"iceTransportPolicy":"relay"};
 
 var localStream = null;
 var remoteStream = null;
@@ -211,6 +205,12 @@ function createPeerConnection(){
 	//key=userid, value=peerconnection
 	console.log('create RTCPeerConnection!');
 	if(!pc){
+		if(document.querySelector('#useRelay').checked){
+			pcConfig.iceTransportPolicy="relay";
+		}else{
+			pcConfig.iceTransportPolicy="all";
+		}
+		console.log("pcConfig",pcConfig);
 		pc = new RTCPeerConnection(pcConfig);
 
 		pc.onicecandidate = (e)=>{

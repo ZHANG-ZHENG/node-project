@@ -13,13 +13,7 @@ var optBw = document.querySelector('select#bandwidth')
 var offer = document.querySelector('textarea#offer');
 var answer = document.querySelector('textarea#answer');
 
-var pcConfig = {
-  'iceServers': [{
-    'urls': 'stun:stun.l.google.com:19302',
-    //'credential': "mypasswd",
-    //'username': "garrylea"
-  }]
-};
+var pcConfig = {"iceServers":[{"urls":["stun:stun.l.google.com:19302"]},{"urls":["turn:linux.zdomain.top:3478"],"username":"admin","credential":"123456"}],"iceTransportPolicy":"all"};
 
 var localStream = null;
 // var remoteStream = null;
@@ -286,7 +280,7 @@ function getMediaStream(stream){
 		localStream = stream;	
 	}
 
-	localVideo.srcObject = localStream;
+	//localVideo.srcObject = localStream;
 
 	//这个函数的位置特别重要，
 	//一定要放到getMediaStream之后再调用
@@ -385,6 +379,12 @@ function createPeerConnection(){
 	//key=userid, value=peerconnection
 	console.log('create RTCPeerConnection!');
 	if(!pc){
+		if(document.querySelector('#useRelay').checked){
+			pcConfig.iceTransportPolicy="relay";
+		}else{
+			pcConfig.iceTransportPolicy="all";
+		}
+		console.log("pcConfig",pcConfig);		
 		pc = new RTCPeerConnection(pcConfig);
 		pc.onicecandidate = (e)=>{
 
