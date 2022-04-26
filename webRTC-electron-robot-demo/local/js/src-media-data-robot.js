@@ -33,8 +33,15 @@ var socket = null;
 
 var offerdesc = null;
 var state = 'init';
-document.querySelector('#webAddress').innerHTML = "web访问地址 https://localhost:"+config.httpsServerPort+"/peer/des-media-data-robot.html";
-document.querySelector('#socketInfo').innerHTML = "socket地址："+config.socketSever+",socket房间："+roomid;
+console.log("process.env.NODE_ENV="+process.env.NODE_ENV);
+if(process.env.NODE_ENV=='test'){
+	document.querySelector('#webAddress').innerHTML = "web访问地址 https://localhost:"+config.httpsServerPort+"/peer/des-media-data-robot.html";
+	document.querySelector('#socketInfo').innerHTML = "socket地址：wss://127.0.0.1:8843,socket房间："+roomid;
+}else{
+	document.querySelector('#webAddress').innerHTML = "web访问地址 https://182.61.37.107/peer/des-media-data-robot.html";
+	document.querySelector('#socketInfo').innerHTML = "socket地址："+config.socketSever+",socket房间："+roomid;
+}
+
 document.querySelector('#screensize').innerHTML=`宽高比${JSON.stringify(robot.getScreenSize())}`;
 
 let robotEventQueue = [];
@@ -77,7 +84,7 @@ function sendMessageRobot(roomid, data){
 						// else{
 						// 	console.log("no move");
 						// }
-					}, 5);
+					}, 50);
 				}				
 				// var len = robotEventQueue.unshift(obj);
 				// console.log('在开头添加元素后长度变为：' + len + '，添加后，数组为:' + robotEventQueue);
@@ -127,9 +134,9 @@ function conn(){
 	
 	console.log("socket start");
 	//socket = io.connect();
-	if(config.socketSever.indexOf("127.0.0.1") != -1){
-		console.log("socketHost default "+config.socketSever);
-		socket = io.connect(config.socketSever); 
+	if(process.env.NODE_ENV=='test'){
+		console.log("socketHost default wss://127.0.0.1:8843");
+		socket = io.connect("wss://127.0.0.1:8843"); 
 	}else{
 		console.log("socketHost /soc",config.socketSever);
 		socket = io.connect(config.socketSever,{path:"/soc",transports: ["websocket"]});
