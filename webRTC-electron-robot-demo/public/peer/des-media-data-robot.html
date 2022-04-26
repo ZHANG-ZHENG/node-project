@@ -9,7 +9,7 @@
 			<div>
 				socket地址(空默认连接页面地址和端口)：<input id="socketHost" value="wss://182.61.37.107"/>
 				socket房间：<input value="room-test" disabled/>
-				强制使用中继服务器<input type="checkbox" id="useRelay" />
+				强制使用中继服务器:<input type="checkbox" id="useRelay" />chrome://webrtc-internals/
 			</div>
 			<div>
 				<button id="connserver">启动</button>
@@ -54,9 +54,9 @@
 			//new MouseListener().init("remotevideo",{remoteScreen:[1920,1080]});
 			new MouseListener().init("remotevideo",{remoteScreen:[1600,900]});
 			//重写
-			MouseListener.prototype.postEvent=function(data){ 
-   				console.log("获取的事件数据zzz",JSON.stringify(data));
-				if(pcSendChannel!=null){
+			MouseListener.prototype.postEvent=function(data){ 	
+				if(pcSendChannel!=null && pcSendChannel.readyState=='open'){
+					console.log("发送的事件数据",JSON.stringify(data));
 					pcSendChannel.send(JSON.stringify(data));
 				}			
 			}					
