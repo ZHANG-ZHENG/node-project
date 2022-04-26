@@ -7,7 +7,7 @@
 	<body style="width: 1700px;">
 		<div>
 			<div>
-				socket地址(空默认连接页面地址和端口)：<input id="socketHost" value="ws://182.61.37.107:9000"/>
+				socket地址(空默认连接页面地址和端口)：<input id="socketHost" value="wss://182.61.37.107"/>
 				socket房间：<input value="room-test" disabled/>
 				<button id="connserver">启动</button>
 				<button id="leave" disabled>关闭</button>	
@@ -54,7 +54,9 @@
 			//重写
 			MouseListener.prototype.postEvent=function(data){ 
    				console.log("获取的事件数据zzz",JSON.stringify(data));
-				pcSendChannel.send(JSON.stringify(data));
+				if(pcSendChannel!=null){
+					pcSendChannel.send(JSON.stringify(data));
+				}			
 			}					
 		 </script>			
 	</body>

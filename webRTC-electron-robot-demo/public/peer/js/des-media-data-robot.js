@@ -43,8 +43,9 @@ function conn(){
 
 	var socketHost = document.querySelector('#socketHost').value;
 	if(socketHost.length>0){
-		console.log("socketHost",socketHost);
-		socket = io.connect(socketHost);
+		console.log("socketHost /soc",socketHost);
+		//socket = io.connect(socketHost);
+		socket = io.connect(socketHost,{path:"/soc",transports: ["websocket"]});
 	}else{
 		console.log("socketHost default");
 		socket = io.connect();
