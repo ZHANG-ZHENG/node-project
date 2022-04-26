@@ -127,7 +127,14 @@ function conn(){
 	
 	console.log("socket start");
 	//socket = io.connect();
-	socket = io.connect(config.socketSever); 
+	if(config.socketSever.indexOf("127.0.0.1") != -1){
+		console.log("socketHost default "+config.socketSever);
+		socket = io.connect(config.socketSever); 
+	}else{
+		console.log("socketHost /soc",config.socketSever);
+		socket = io.connect(config.socketSever,{path:"/soc",transports: ["websocket"]});
+	}
+	
 	console.log("socket end");
 	socket.on('connect_error', e => {
 		console.log('connect_error', e);

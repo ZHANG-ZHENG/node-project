@@ -1,6 +1,6 @@
 
 {
     "httpsServerPort":8843,  
-    "socketSever":"wss://127.0.0.1:8843",
-    "socketSeverDesc":"wss://127.0.0.1:8843 本地测试地址,http://182.61.37.107:9000 外网测试地址"
+    "socketSever":"wss://182.61.37.107",
+    "socketSeverDesc":"wss://127.0.0.1:8843 本地测试地址,wss://182.61.37.107外网测试地址"
 }
