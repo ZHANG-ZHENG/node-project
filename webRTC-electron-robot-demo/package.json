@@ -5,8 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "electron . --startHttpServer=true",
+    "test": "set NODE_ENV=test&&electron . ",
     "rebuild": "npm rebuild --runtime=electron --target=7.3.3 --disturl=https://atom.io/download/atom-shell --abi=75",
+    "pack:test":"set NODE_ENV=test&&eelectron-packager ./ scpRemoteApp --out ./scp-remote-pack  --platform=win32 --arch=x64 --electron-version 7.3.3  --overwrite",
     "pack":"electron-packager ./ scpRemoteApp --out ./scp-remote-pack  --platform=win32 --arch=x64 --electron-version 7.3.3  --overwrite"
   },
   "author": "zz",

@@ -1,6 +1,5 @@
 'use strict'
-
-if(process.argv.length>2 && process.argv[2]=="--startHttpServer=true"){
+if(process.env.NODE_ENV=='test'){
 	var localWebServer = require('./local-web-server.js');
 	localWebServer.initServer();
 }else{
