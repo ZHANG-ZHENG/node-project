@@ -1,7 +1,6 @@
 'use strict'
 
-const envArgs = JSON.parse(process.env.npm_config_argv);
-if(envArgs.original[0]=='test'){
+if(process.argv.length>2 && process.argv[2]=="--startHttpServer=true"){
 	var localWebServer = require('./local-web-server.js');
 	localWebServer.initServer();
 }else{

@@ -10,7 +10,6 @@ function initServer(){
 	
 	var USERCOUNT = 3;
 	var config = require('./config/config.json');
-	console.log("httpsServerPort="+config.httpsServerPort);
 	
 	var app = express();
 	app.use(serveIndex(__dirname+'/public'));
@@ -78,7 +77,7 @@ function initServer(){
 	
 	https_server.listen(config.httpsServerPort, '0.0.0.0');
 
-    console.log("https and socketio,server is started");
+    console.log("https and socketio,server is started,"+"httpsServerPort="+config.httpsServerPort);
 }
 
 function test(){
